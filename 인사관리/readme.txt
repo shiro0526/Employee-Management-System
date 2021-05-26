@@ -6,3 +6,18 @@ asgi.py 파이썬 비동기 웹 앱 및 서버가 서로 통신하는 표준입�
 manage.py 스크립트는 응용 프로그램을 만들고, 데이터베이스로 작업하고, 개발 웹 서버를 시작하는 데 사용됩니다.
 
 __init__.py - Django/Python이 폴더를 파이썬 패키지로 인식하고 프로젝트의 다른 부분 내에서 해당 개체를 사용할 수 있도록 여기에 만든 빈 파일입니다.
+
+
+공부하기위해 참조한 사이트
+
+Django - views.py와 urls.py, url 매핑 규칙, 템플릿, 스태틱 파일(정적 컨텐츠), 장고 템플릿의 블락(block)
+https://lar542.github.io/Django/2019-06-17-first_django_ptoject/
+
+[Django] 장고 정리-3 (뷰 view & 장고 url)
+https://ychae-leah.tistory.com/140
+
+MS-ACCESS를 이용하여, MySQL에 테이블 업로드하기(Import 하기)
+https://m.blog.naver.com/PostView.naver?blogId=rickman2&logNo=221392786855&proxyReferer=https:%2F%2Fwww.google.com%2F
+
+Django와 MySQL 연동하기
+https://hae-ong.tistory.com/25
