@@ -24,3 +24,10 @@ https://hae-ong.tistory.com/25
 
 점프투 장고
 https://wikidocs.net/70649
+
+https://tutorial.djangogirls.org/ko/django_views/
+https://hae-ong.tistory.com/25
+https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models
+https://aboooks.tistory.com/210
+https://juni-in.tistory.com/6
+https://kamang-it.tistory.com/entry/Django-06model%EC%9D%84-templates%EB%A1%9C-%EC%B6%9C%EB%A0%A5%ED%95%98%EA%B8%B0
