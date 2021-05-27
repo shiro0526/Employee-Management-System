@@ -1,0 +1,25 @@
+{% load static %}
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'bootstrap-grid.min' %}">
+        <title>인사관리 페이지</title>
+    </head>
+    <body>
+        <p>Hi there!</p>
+        {% if person_list %}
+        <ul>
+            id 이름 나이 <br>
+            {% for person in person_list %}
+
+                {{person.id}},{{person.이름}},{{person.나이}}<br>
+
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No person are available</p>
+        {% endif %}
+
+
+        <p>It works!</p>
+    </body>
+</html>
