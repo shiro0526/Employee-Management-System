@@ -21,3 +21,6 @@ https://m.blog.naver.com/PostView.naver?blogId=rickman2&logNo=221392786855&proxy
 
 Django와 MySQL 연동하기
 https://hae-ong.tistory.com/25
+
+점프투 장고
+https://wikidocs.net/70649
