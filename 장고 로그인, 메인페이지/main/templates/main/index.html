@@ -18,20 +18,98 @@ Released   : 20090208
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 <link href="{% static 'main/style.css' %}" rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
+
+    
 </head>
 <body>
 <div id="wrapper">
 
 	<div id="header">
-		<div id="menu">
-			<ul>
+		<!--<div id="menu">-->
+			<style>
+				#nav{
+					list-style: none;
+					height: 400px;
+					padding: 5px 1px;
+					margin: 0;
+				
+				}
+				#nav li{
+					float:left;
+					position: relative;
+					margin: 5px 30px;
+					padding: 0;
+				}
+				#nav li a{
+					display: block;
+					font-family: "굴림";
+					font-size: 18px;
+					padding: 7px 8px;
+					margin: 0;
+					color: #fff;
+					margin: 0;
+					text-decoration: none;
+					text-shadow: 0 1px 1px rbga(0,0,0,0.3);
+				}
+				#nav li:hover > a{
+					/*background: white;*/
+					color:black;
+					margin:0;
+					padding: 5px;
+				}
+				#nav ul{
+					list-style: none;
+					margin: 0;
+					padding: 0;
+					position:absolute;
+					left:0;
+					top: 40px;
+					width:150px;
+					background:orange;
+					text-align: center;
+					opacity: 0;
+				}
+				#nav ul li{
+					float: none;
+					margin:0;
+					padding:0;
+					font-size: 10px;
+				}
+				#nav ul a{
+					font-weight:normal;
+					color: black;
+				}
+				#nav ul li:hover a{
+					background: #cc9882;
+					font-weight: bold;
+				}
+				#nav li:hover ul{
+					opacity: 1;
+				}
+				#nav li:hover ul li{
+					height: 35px;
+					overflow: visible;
+					padding: 0;
+				}
+			</style>
+			<ul id = "nav">
 				<li class="current_page_item"><a href="#">Home</a></li>
-				<li><a href="#">인사관리</a></li>
+				<li><a href="#">인사관리</a>
+					<ul>
+						{% if 2 >= rank %}
+						<li><a href="#">인사이동</a></li>
+						{%endif%}
+						<li><a href="#">조직도</a></li>
+						<li><a href="#">직원 리스트</a></li>
+					</ul>
+				</li>
+				
 				<li><a href="#">자료게시판</a></li>
 				<li><a href="#">결제게시판</a></li>
 				<li><a href="#">캘린더</a></li>
 			</ul>
-		</div>
+		<!--</div>-->
 		<!-- end #menu -->
 
 		<!-- end #search -->
