@@ -1,4 +1,4 @@
-"""swengineering URL Configuration
+"""work2 URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -13,18 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-#import login.views
-urlpatterns = [
-    path('', include('login.urls')),
-    path('admin/', admin.site.urls),
-    path('login/',include('login.urls')),
-    path('main/',include('main.urls')),
-    path('suggestion/',include('suggestion.urls')),
-    path('approval/',include('approval.urls')),
-    path('approvalcheck/',include('approvalcheck.urls')),
-    path('employee/',include('employee.urls')),
-    #path('',login.views.index,name='index'),
+from . import views
+from django.urls import path
 
+urlpatterns = [
+    path('',views.index,name='index'),
 ]
