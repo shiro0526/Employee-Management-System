@@ -27,6 +27,9 @@ https://wikidocs.net/70649
 
 https://tutorial.djangogirls.org/ko/django_views/
 https://hae-ong.tistory.com/25
+https://parkhyeonchae.github.io/2020/04/11/django-project-23/
+https://tunghs.github.io/2019/09/07/2019-09-07-Apply-Django-Bootstrap/
+
 https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Models
 https://aboooks.tistory.com/210
 https://juni-in.tistory.com/6
