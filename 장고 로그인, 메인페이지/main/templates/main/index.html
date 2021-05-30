@@ -94,7 +94,7 @@ Released   : 20090208
 				}
 			</style>
 			<ul id = "nav">
-				<li class="current_page_item"><a href="#">Home</a></li>
+				<li class="current_page_item"><a href="/main">Home</a></li>
 				<li><a href="#">인사관리</a>
 					<ul>
 						{% if 2 >= rank %}
@@ -106,7 +106,15 @@ Released   : 20090208
 				</li>
 				
 				<li><a href="#">자료게시판</a></li>
-				<li><a href="#">결제게시판</a></li>
+				<li><a href="#">결제게시판</a>
+					<ul>
+						<li><a href="/suggestion">결제요청</a></li>
+						
+						<li><a href="/approval/">결제승인</a></li>
+						<li><a href="/approvalcheck/">결제처리현황</a></li>
+					</ul>
+				
+				</li>
 				<li><a href="#">캘린더</a></li>
 			</ul>
 		<!--</div>-->

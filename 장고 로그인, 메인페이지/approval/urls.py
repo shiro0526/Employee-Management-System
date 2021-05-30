@@ -15,7 +15,14 @@ Including another URLconf
 """
 from . import views
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
+app_name = 'approval'
+
 
 urlpatterns = [
     path('',views.index,name='index'),
-]
+    path('download/<int:pk>',views.file_download_view,name='approval_download'),
+    path('allow/<int:filenum>',views.allow,name='approval_allow'),
+    path('denined/<int:filenum>',views.denined,name='approval_denined'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -16,6 +16,7 @@ def index(request):
             #print(user.user_name)
             request.session['user_id'] = id
             request.session['user_name'] = user.user_name
+            request.session['user_num'] = user.user_num
             request.session['user_department'] = user.user_department # 부서
             request.session['user_rank'] = user.user_rank #  권한
             request.session['user_position'] = user.user_position # 직급

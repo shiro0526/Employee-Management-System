@@ -49,7 +49,7 @@ def index(request):
     context = {
         'person_list': person_list
     }
-    return render(request, 'employee/index.html', {'person_list': person_list})
+    return render(request, 'employee/index.html', {'person_list': person_list,'rank':request.session['user_rank']})
 
 #
 # def update(request):

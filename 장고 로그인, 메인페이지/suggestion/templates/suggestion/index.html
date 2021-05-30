@@ -1,13 +1,18 @@
 <!doctype html>
+
+
+{% load static %}
+<script src="{% static 'suggestion/jquery-3.6.0.min.js' %}"></script>
+
 <html lang="en">
   <head>
-    {% load static %}
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.83.1">
-    <title>Cheatsheet · Bootstrap v5.0</title>
+    <title>결제 요청</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cheatsheet/">
 
@@ -41,6 +46,97 @@
     <header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
       <div class="container-fluid d-flex align-items-center">
         <h1 class="d-flex align-items-center fs-4 text-white mb-0">
+          <style>
+            #nav{
+              list-style: none;
+              height: 50px;
+              padding: 5px 1px;
+              margin: 0;
+            
+            }
+            #nav li{
+              float:left;
+              position: relative;
+              margin: 5px 30px;
+              padding: 0;
+            }
+            #nav li a{
+              display: block;
+              font-family: "굴림";
+              font-size: 18px;
+              padding: 7px 8px;
+              margin: 0;
+              color: #fff;
+              margin: 0;
+              text-decoration: none;
+              text-shadow: 0 1px 1px rbga(0,0,0,0.3);
+            }
+            #nav li:hover > a{
+              /*background: white;*/
+              color:white;
+              margin:0;
+              padding: 5px;
+            }
+            #nav ul{
+              list-style: none;
+              margin: 0;
+              padding: 0;
+              position:absolute;
+              left:0;
+              top: 40px;
+              width:150px;
+              background:white;
+              text-align: center;
+              opacity: 0;
+            }
+            #nav ul li{
+              float: none;
+              margin:0;
+              padding:0;
+              font-size: 10px;
+            }
+            #nav ul a{
+              font-weight:normal;
+              color: black;
+            }
+            #nav ul li:hover a{
+              background: #cc9882;
+              font-weight: bold;
+            }
+            #nav li:hover ul{
+              opacity: 1;
+            }
+            #nav li:hover ul li{
+              height: 35px;
+              overflow: visible;
+              padding: 0;
+            }
+          </style>
+          <ul id = "nav">
+            <li class="current_page_item"><a href="/main">Home</a></li>
+            <li><a href="#">인사관리</a>
+              <ul>
+                {% if 2 >= rank %}
+                <li><a href="/employee">인사관리</a></li>
+                {%endif%}
+                <li><a href="#">조직도</a></li>
+                <li><a href="#">직원 리스트</a></li>
+              </ul>
+            </li>
+            
+            <li><a href="#">자료게시판</a></li>
+            <li><a href="#">결제게시판</a>
+              <ul>
+                <li><a href="/suggestion">결제요청</a></li>
+                
+                <li><a href="/approval/">결제승인</a></li>
+                <li><a href="/approvalcheck/">결제처리현황</a></li>
+              </ul>
+            
+            </li>
+            <li><a href="#">캘린더</a></li>
+          </ul>
+
           
         </h1>
         
@@ -57,46 +153,84 @@
         </ul>
       </nav>
     </aside>
-
+    <script type="text/javascript">
+      function suggestion(){
+        var form = document.suggestionform;
+        //var people = $(".user_num");
+        var suggestion_cnt = 0;
+        var people_array = Array();
+        var filecheck = document.getElementById("file").value;
+        var title = document.getElementById("title").value;
+        $('input:checkbox[name=check]:checked').each(function(){
+          people_array.push(this.value);
+          suggestion_cnt++;
+        });
+        if(title==""){
+          alert("제목을 입력해주세요");
+          return false;
+        }
+        if(filecheck==""){
+          alert("파일을 첨부하여주세요");
+          return false;
+        }
+        if(suggestion_cnt==0){
+          alert("보낼 사람을 선택하여주세요");
+          return false;
+        }
+        $("#people_array").val(people_array);
+        form.submit();
+      }
+    
+    
+    </script>
 <div class="bd-cheatsheet container-fluid bg-body">
   <section id="content">
     <h2 class="sticky-xl-top fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3">결재 작성</h2>
 
-   
-
-    
-
+    <form method="POST" action="" name="suggestionform" onsubmit="return false"enctype="multipart/form-data">
+      {% csrf_token %}
       <div>
         <div class="bd-example">
         <div class="mb-3">
           <p><strong>제목</strong></p>
-          <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example">
+          <input id="title" name="title" class="form-control form-control-sm" type="text" placeholder="제목을 입력해주세요" aria-label=".form-control-sm example">
         </div>
         
         <div class="mb-3">
           <p><strong>결재 서류</strong></p>
-          <input type="file" class="form-control form-control-lg" aria-label="Large file input example">
+          <input id="file" name="file" type="file" class="form-control form-control-lg" aria-label="Large file input example">
         </div>
         </div>
 
         <div class="bd-example">
         <div class="mb-3">
           <p><strong>받는 이</strong></p>
-          <input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example">
-        
-          <input type="button" value="결재 올리기">
+          <!--<input name="name" class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example">-->
+          <br>
+          {%if employee_list%}
+          {%for employee in employee_list%}
+            <label><input type="checkbox" name="check" value="{{employee.user_num}}" class="user_num">    이름 : {{employee.user_name}}     부서 : {{employee.user_department}}      직급 : {{employee.user_position}}</label>
+        </br>
+          {% endfor %}
+                
+
+          {%endif%}
+
+          <input type="hidden" id="people_array" name="people_array" value="">
+
+          <button type="button" onclick="suggestion()">결제 올리기</button>
       </div>
-    
-    
+      </div>
+      </div>
+      </form>
+    </section>
+    </div>
 
-     
-      
+
+
 
         
 
 
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-      <script src="cheatsheet.js"></script>
   </body>
 </html>

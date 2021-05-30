@@ -16,16 +16,96 @@
         <!-- Responsive navbar-->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" href="#">인사관리</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"></a></li>
-
-                        <li class="nav-item"><a class="nav-link" href="#">HOME</a></li>
-
-                    </ul>
-                </div>
+                <style>
+                    #nav{
+                      list-style: none;
+                      height: 50px;
+                      padding: 5px 1px;
+                      margin: 0;
+                    
+                    }
+                    #nav li{
+                      float:left;
+                      position: relative;
+                      margin: 5px 30px;
+                      padding: 0;
+                    }
+                    #nav li a{
+                      display: block;
+                      font-family: "굴림";
+                      font-size: 18px;
+                      padding: 7px 8px;
+                      margin: 0;
+                      color: #fff;
+                      margin: 0;
+                      text-decoration: none;
+                      text-shadow: 0 1px 1px rbga(0,0,0,0.3);
+                    }
+                    #nav li:hover > a{
+                      /*background: white;*/
+                      color:white;
+                      margin:0;
+                      padding: 5px;
+                    }
+                    #nav ul{
+                      list-style: none;
+                      margin: 0;
+                      padding: 0;
+                      position:absolute;
+                      left:0;
+                      top: 40px;
+                      width:150px;
+                      background:white;
+                      text-align: center;
+                      opacity: 0;
+                    }
+                    #nav ul li{
+                      float: none;
+                      margin:0;
+                      padding:0;
+                      font-size: 10px;
+                    }
+                    #nav ul a{
+                      font-weight:normal;
+                      color: black;
+                    }
+                    #nav ul li:hover a{
+                      background: #cc9882;
+                      font-weight: bold;
+                    }
+                    #nav li:hover ul{
+                      opacity: 1;
+                    }
+                    #nav li:hover ul li{
+                      height: 35px;
+                      overflow: visible;
+                      padding: 0;
+                    }
+                  </style>
+                  <ul id = "nav">
+                    <li class="current_page_item"><a href="/main">Home</a></li>
+                    <li><a href="#">인사관리</a>
+                      <ul>
+                        {% if 2 >= rank %}
+                        <li><a href="/employee">인사관리</a></li>
+                        {%endif%}
+                        <li><a href="#">조직도</a></li>
+                        <li><a href="#">직원 리스트</a></li>
+                      </ul>
+                    </li>
+                    
+                    <li><a href="#">자료게시판</a></li>
+                    <li><a href="#">결제게시판</a>
+                      <ul>
+                        <li><a href="/suggestion">결제요청</a></li>
+                        
+                        <li><a href="/approval/">결제승인</a></li>
+                        <li><a href="/approvalcheck/">결제처리현황</a></li>
+                      </ul>
+                    
+                    </li>
+                    <li><a href="#">캘린더</a></li>
+                  </ul>
             </div>
         </nav>
         <!-- Page content-->
