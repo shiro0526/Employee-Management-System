@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>인사관리 페이지</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{%  static 'employee/css/styles.css'  %}" rel="stylesheet" />
+    </head>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <style>
+                    #nav{
+                      list-style: none;
+                      height: 50px;
+                      padding: 5px 1px;
+                      margin: 0;
+                    
+                    }
+                    #nav li{
+                      float:left;
+                      position: relative;
+                      margin: 5px 30px;
+                      padding: 0;
+                    }
+                    #nav li a{
+                      display: block;
+                      font-family: "굴림";
+                      font-size: 18px;
+                      padding: 7px 8px;
+                      margin: 0;
+                      color: #fff;
+                      margin: 0;
+                      text-decoration: none;
+                      text-shadow: 0 1px 1px rbga(0,0,0,0.3);
+                    }
+                    #nav li:hover > a{
+                      /*background: white;*/
+                      color:white;
+                      margin:0;
+                      padding: 5px;
+                    }
+                    #nav ul{
+                      list-style: none;
+                      margin: 0;
+                      padding: 0;
+                      position:absolute;
+                      left:0;
+                      top: 40px;
+                      width:150px;
+                      background:white;
+                      text-align: center;
+                      opacity: 0;
+                    }
+                    #nav ul li{
+                      float: none;
+                      margin:0;
+                      padding:0;
+                      font-size: 10px;
+                    }
+                    #nav ul a{
+                      font-weight:normal;
+                      color: black;
+                    }
+                    #nav ul li:hover a{
+                      background: #cc9882;
+                      font-weight: bold;
+                    }
+                    #nav li:hover ul{
+                      opacity: 1;
+                    }
+                    #nav li:hover ul li{
+                      height: 35px;
+                      overflow: visible;
+                      padding: 0;
+                    }
+                  </style>
+                  <ul id = "nav">
+                    <li class="current_page_item"><a href="/main">Home</a></li>
+                    <li><a href="#">인사관리</a>
+                      <ul>
+                        {% if 2 >= rank %}
+                        <li><a href="/employee">인사관리</a></li>
+                        {%endif%}
+                        <li><a href="#">조직도</a></li>
+                        <li><a href="#">직원 리스트</a></li>
+                      </ul>
+                    </li>
+                    
+                    <li><a href="#">자료게시판</a></li>
+                    <li><a href="#">결제게시판</a>
+                      <ul>
+                        <li><a href="/suggestion">결제요청</a></li>
+                        
+                        <li><a href="/approval/">결제승인</a></li>
+                        <li><a href="/approvalcheck/">결제처리현황</a></li>
+                      </ul>
+                    
+                    </li>
+                    <li><a href="#">캘린더</a></li>
+                  </ul>
+            </div>
+        </nav>
+        <!-- Page content-->
+        <br>
+
+        <div class="container">
+        </div>
+                 <tr>
+                  <!--<th scope="col">id</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;-->
+                  <th scope="col">Name</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                  <th scope="col">AGE</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <th scope="col">Position</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                  <th scope="col">Department</th>
+                </tr>
+        </body>
+               {% if person_list %}
+               {% for person in person_list %}
+                <tr>
+
+
+                    <form action="" method="post">
+                        {% csrf_token %}
+                       <!--<input type="text" name="id" value="{{ person.user_num }}" readonly>-->
+                        <input type="text" name="name" value="{{ person.user_name }}">
+
+                         <input type="text" name="age" value="{{ person.user_age }}">
+                        <input type="text" name="position" value="{{ person.user_position }}">
+                        <input type="text" name="department" value="{{ person.user_department }}">
+                        <input type="submit" name="edit" value="수정">
+                        <input type="submit" name="fire" value="해고">
+
+                    </form>
+
+                </tr>
+                {% endfor %}
+              {% else %}
+              {% endif %}
+
+                <br>
+                <tr>
+
+                  <th scope="col">Name</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                  <th scope="col">AGE</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <th scope="col">Position</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                  <th scope="col">Department</th>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+                    <th scope="col">Rank</th>
+                </tr>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="name" >
+                         <input type="text" name="age" >
+                        <input type="text" name="position" >
+                        <input type="text" name="department" >
+                         <input type="text" name="rank" >
+                        <input type="submit" name="add" value="추가">
+
+                    </form>
+
+
+
+
+        </html>
+
+
+<script type="text/javascript">
+
+    // @breif contenteditable 속성을 가진경우
+
+    contents = document.getElementsByClassName("rowColumn");
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // @breif rowColumn 클래스의 갯수 만큼 반복문을 실행한다.
+
+        Array.from(contents).forEach(function(content) {
+
+            // @breif 마우스로 해당영역을 더블클릭 한경우
+
+            content.addEventListener("dblclick", function(event) {
+
+                // @breif 전체 테이블 컬럼( td > p )에서 현재 사용중인 값의 존재여부를 확인한다.
+
+                Array.from(contents).forEach(function(defaultVal) {
+
+                    /*
+                    // @details 빈값( null )이 존재하는지 체크한다.
+                    if(
+                           defaultVal.textContent == ""
+                        || defaultVal.textContent == null
+                        || defaultVal.textContent == undefined
+                        || (defaultVal.textContent != null
+                        && typeof defaultVal.textContent == "object"
+                        && !Object.keys(defaultVal.textContent).length == ""))
+                    {
+
+                        // @details 내용이 존재하지 않다면 data 태그의 기본값으로 되돌린다.
+                        defaultVal.textContent = defaultVal.dataset.default;
+                    }
+                    */
+
+                    // @details 저장하지 않은 내용이라고 판단하여 data 태그의 기본값으로 되돌린다.
+                    defaultVal.textContent = defaultVal.dataset.default;
+
+                    // @breif 수정 불가 상태로 되돌린다.
+
+                    defaultVal.contentEditable = false;
+
+                    defaultVal.style.border = "0px";
+
+                });
+
+                if(content.isContentEditable == false) {
+
+                    // @details 편집 가능 상태로 변경
+
+                    content.contentEditable = true;
+
+                    // @details 텍스트 문구 변경
+
+                    // content.textContent = "";
+
+                    // @details CSS 효과 추가
+
+                    content.style.border = "1px solid #FFB6C1";
+
+                    //@details 포커스 지정
+
+                    content.focus();
+
+                }
+
+            });
+
+            // @breif 키보드 입력이 방생한 경우 실행
+
+            content.addEventListener("keypress", function(event) {
+
+                // @breif Enter키 입력시 실행
+
+                if(event.key === "Enter") {
+
+                    // @details 입력된 값이 빈값( null )인지 체크한다.
+
+                    if(content.textContent == ""
+                        || content.textContent == null
+                        || content.textContent == undefined
+                        || (content.textContent != null
+                        && typeof content.textContent == "object"
+                        && !Object.keys(content.textContent).length == ""))
+                    {
+                        // @details 내용이 존재하지 않다면 data 태그의 기본값으로 되돌린다.
+                        content.textContent = content.dataset.default;
+
+                    } else {
+                        // @details 내용의 수정이 완료되었다면 data 태그의 기본값도 바꿔준다.
+
+                        content.dataset.default = content.textContent;
+
+
+                    }
+                    // @breif 수정 불가 상태로 되돌린다.
+
+                    content.contentEditable = false;
+
+                    content.style.border = "0px";
+
+                }
+
+            });
+
+        });
+
+    });
+
+</script>

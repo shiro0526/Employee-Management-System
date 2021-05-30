@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.83.1">
+    <title>결재 확인</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/offcanvas-navbar/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static 'approval/bootstrap.min.css' %}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static 'approval/offcanvas.css' %}" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+  <div class="container-fluid">
+    <style>
+      #nav{
+        list-style: none;
+        height: 50px;
+        padding: 5px 1px;
+        margin: 0;
+      
+      }
+      #nav li{
+        float:left;
+        position: relative;
+        margin: 5px 30px;
+        padding: 0;
+      }
+      #nav li a{
+        display: block;
+        font-family: "굴림";
+        font-size: 18px;
+        padding: 7px 8px;
+        margin: 0;
+        color: #fff;
+        margin: 0;
+        text-decoration: none;
+        text-shadow: 0 1px 1px rbga(0,0,0,0.3);
+      }
+      #nav li:hover > a{
+        /*background: white;*/
+        color:white;
+        margin:0;
+        padding: 5px;
+      }
+      #nav ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position:absolute;
+        left:0;
+        top: 40px;
+        width:150px;
+        background:white;
+        text-align: center;
+        opacity: 0;
+      }
+      #nav ul li{
+        float: none;
+        margin:0;
+        padding:0;
+        font-size: 10px;
+      }
+      #nav ul a{
+        font-weight:normal;
+        color: black;
+      }
+      #nav ul li:hover a{
+        background: #cc9882;
+        font-weight: bold;
+      }
+      #nav li:hover ul{
+        opacity: 1;
+      }
+      #nav li:hover ul li{
+        height: 35px;
+        overflow: visible;
+        padding: 0;
+      }
+    </style>
+    <ul id = "nav">
+      <li class="current_page_item"><a href="/main">Home</a></li>
+      <li><a href="#">인사관리</a>
+        <ul>
+          {% if 2 >= rank %}
+          <li><a href="/employee">인사관리</a></li>
+          {%endif%}
+          <li><a href="#">조직도</a></li>
+          <li><a href="#">직원 리스트</a></li>
+        </ul>
+      </li>
+      
+      <li><a href="#">자료게시판</a></li>
+      <li><a href="#">결제게시판</a>
+        <ul>
+          <li><a href="/suggestion">결제요청</a></li>
+          
+          <li><a href="/approval/">결제승인</a></li>
+          <li><a href="/approvalcheck/">결제처리현황</a></li>
+        </ul>
+      
+      </li>
+      <li><a href="#">캘린더</a></li>
+    </ul>
+
+    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+      
+      
+    </div>
+  </div>
+</nav>
+
+<div class="nav-scroller bg-body shadow-sm">
+  <h4>결재 확인</h4>
+</div>
+
+<main class="container">
+
+  <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">미승인된 결제</h6>
+    {% if suggestion_list %}
+    {% for suggestion in suggestion_list %}
+      <div class="d-flex text-muted pt-3">
+      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        <strong class="d-block text-gray-dark">{{ suggestion.title }}</strong>
+        결제 처리 요청한 사람:{{ suggestion.reciever_name }}
+      </p>
+    </div>
+      {% endfor %}
+  {% else %}
+  {% endif %}
+    <small class="d-block text-end mt-3">
+
+    </small>
+  </div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">승인된 결제</h6>
+    {% if  approved_suggestion_list %}
+    {% for suggestion in  approved_suggestion_list %}
+      <div class="d-flex text-muted pt-3">
+      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        <strong class="d-block text-gray-dark">{{  suggestion.title }}</strong>
+        결제 처리자:{{  suggestion.reciever_name }}
+      </p>
+    </div>
+      {% endfor %}
+  {% else %}
+  {% endif %}
+    <small class="d-block text-end mt-3">
+
+    </small>
+  </div>
+
+<div class="my-3 p-3 bg-body rounded shadow-sm">
+    <h6 class="border-bottom pb-2 mb-0">거부된 결제</h6>
+    {% if disapproved_suggestion_list %}
+    {% for suggestion in disapproved_suggestion_list %}
+      <div class="d-flex text-muted pt-3">
+      <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <p class="pb-3 mb-0 small lh-sm border-bottom">
+        <strong class="d-block text-gray-dark">{{ suggestion.title }}</strong>
+        결제 처리자:{{ suggestion.reciever_name }}
+      </p>
+    </div>
+      {% endfor %}
+  {% else %}
+  {% endif %}
+    <small class="d-block text-end mt-3">
+
+    </small>
+  </div>
+
+
+
+</main>
+
+
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+
+      <script src="offcanvas.js"></script>
+  </body>
+</html>
