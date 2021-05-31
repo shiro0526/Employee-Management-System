@@ -1,0 +1,373 @@
+192.168.100.2 : 게이트웨이
+255.255.255.0
+김기태
+
+010-4536-0187
+
+리눅스, 윈도우 서버
+
+1 : 환경구성, IP개념정립, network command, telnet, ssh
+2 : vnc, ftp, nfs(auto mount, nfs, autofs)
+3 : DNSName server), Web
+4 : DB, Web+DB 유틸리티 2가지 
+
+ststemtl get-default
+
+systemtl set-default graphical.target
+
+ln -sf 원본파일 링크위치(싱글모드에서) => ln -sf /usr/lib/systemd/system/graphical.target /etc/systemd/system/default.target
+run-level
+	
+	~ Centos 6.9(init.d)
+
+	runrevel 0	power off
+	runrevel 1	single user mode
+	runrevel 2	multi user mode without network
+	runrevel 3 	full multi user mode
+	runrevel 4	unused
+	runrevel 5	X11 ( = Xwindow = gnome )
+	runrevel 6	reboot
+
+	Centos 7.0 ~ (system.d)
+확인법 : ls -l /etc/systemd/system/default.target	
+	poweroff.target		= runlevel 0
+	rescue.target		= runlevel 1
+	multi-user.target	= runlevel 3
+	graphical.target	= runlevel 5
+	reboot.target		= runlevel 6
+
+
+
+IP : 192.168.1.128(실제론 2진수가 들어감)
+ => IPv4
+     각 숫자마다 8개의 비트가 들어간다(ex 192)11000000)
+     그래서 32bit 주소체계라고 한다. 약 42억개
+     classful -> classless -> 공인 ip, 사설 ip(현재, NAT)
+     classful : 
+		A class 0.0.0.0 ~ 127.0.0.0(0은 가변) : A는 networkId랑 hostId를 가지게 된다. 그래서 subetmask = 255.0.0.0(networkId에 다 1을 넣어주면된다.)
+		B class 128.0.0.0 ~ 191.255.0.0	: 2개의 networkId랑 hostId를 갖게된다. subnetmask : 255.255.0.0
+		C class 192.0.0.0 ~ 223.255.255.0 : subnetmask : 255.255.255.0
+	=> 단점 : 낭비되는 ip주소가 너무 많다. 
+
+    사설 IP
+	A : 10.0.0.0 $ 8
+	B : 172.16.0.0 ~ 172.31.0.0 $ 16
+	C : 192.168.0.0 $ 16
+		
+
+	192.168.1.	0 	: Network ID = Subnet ID
+			1~253	: 실제 사용 IP
+			254	: Gateway
+			255	: Broadcast
+
+	Vmware Nat
+	192.168.1.	0	: Network ID
+			1	: Virtual network adaptor
+			2	: Gateway
+			3~254	: 실제 사용 IP
+			255	: Broadcast
+
+ => IPv6(ex)LTE)
+
+네트워크 관련 명령어
+
+ipconfig : Internet Protocol configuration
+ifconfig : Interface configuration
+ifconfig ens32(자기 해당 인터페이스) down/up : 자기꺼 끄기, 키기 
+ifconfig ens32(인터페이스) 192.168.100.128 netmask 255.255.255.0 : 인터페이스의 아이피주소 변경(일시적)
+아이피를 되돌리려는 방법으로는 재부팅이 있다.
+또는 이미 지정된 ip주소를 불러오는 방법이있다 : systemctl restart(start라는 명령어도 있다.) network(데몬 이름)
+=> demon실행한것
+
+ping ip주소
+ping -c 3 -i 0.1 -s 1000 192.168.100.128 : ping개수 제한(-c : 횟수 조절, -i 패킷 사이의 간격 조정, -s 패킷의 사이즈 조정)
+
+traceroute : 그 쪽에 접근하는데 들려야하는 루트들을 표시
+
+netstat -aounp : 통신할 수 있는 네트워크 환경 표시
+
+
+* systemctl (명령어) (데몬) : 꼭 알아두자
+
+
+telnet : systemctl restart telnet.socket으로 일단 설정해야함, 방화벽 해제 그리고 cmd에서 접속
+
+방화벽 해제
+~ Centos 6.9 : iptables
+Centos 7 ~ : firewall-cmd --permanent --add-port=23/tcp
+		firewall-cmd --reload
+
+=> 이후 cmd에서 telnet 아이피주소로 로그인(su - 이후 root 암호를 치면 root로 접속)
+=> snipping공격에 약함
+
+ssh : 보안된 셸(port : 22) -> 암호화된 원격 접속
+vi /etc/ssh/sshd_config
+
+#뒤에 한칸 공백이 있다면 주석
+#뒤에 바로 내용이 오면 설정들(#만 지우면 바로 사용 가능)
+#ListenAddress의 차이는 ipv4냐 ipv6냐의 차이이다.  : 여기로 들어오는 ip만 받겠다.   
+	ex) ListenAddress 192.168.100.130
+
+HostKey에서 rsa랑 dsa는 둘중 하나만 사용가능. 그래서 둘 중 하나는 주석처리가 필수
+LoginGraceTime : 로그인 안하고 버티는 시간
+MaxAuthTries : 암호 재입력 횟수
+MaxSessions : putty 최대 열수 있는 개수
+PermitRootLogin : root로 로그인 허가권
+
+수정하고 나면 systemctl restart sshd로 데몬즈 실행
+
+ssh ip주소 : 리눅스에서 리눅스 연결(root로 참고로 자기꺼)
+	-l : 아이디 지정 연결 ex) ssh -l itbank 192.168.100.128
+
+exit : 접속 종료
+
+sftp : 암호화 된 ftp
+
+scp : 암호화 된 rcp(원격 카피)
+
+root 권한 접속 방법 : su -명령어
+
+vnc(virtual network computer): remote access
+CLI : telnet, sshd
+GUI : vnc => vmware화면에서 건든다.
+시작 vncserver, vncviewer [ip주소]:session번호(1) 
+vncpasswd : vnc패스워드 재설정
+ps -ef | grep Xvnc( 서버가 돌아가는지 확인 )
+vncserver -kill :(session번호) : 서버만 끈다.
+vncserver :번호 : 번호 세션을 생성
+포트번호 확인법 log파일 들어가면됨 (포트번호는 세션번호 + 5900)
+ftp : file transfer protocol(vsftpd 패키지다운)
+	-> systemctl resart vsftpd, 방화벽해제(firewall-cmd --permanent --add-service=ftp, firewall-cmd --reload)
+	-> /etc/vsftpd/vsftpd.conf
+	로컬(local) ftp : ftp서버에 있는 로컬 사용자를 이용하는 ftp -> chroot를 이용해 anonyous처럼 격리가능(allow_writeable_chroot=YES적기), 그뒤 /etc/vsftpd/chroot_list를 만들고 격리 해제 하고싶으면 거기에 이름 적기)
+	익명(anonymous) ftp : 익명사용자를 이용하는 ftp
+	
+
+standalone demon : 혼자서 돌아갈수 있는 데몬
+
+
+auto mount : /etc/fstab 사용한다(잘못 건들시 부팅이 안됨. 그래서 /backup같은 미리 백업파일을 만들어 둬서 복사한뒤 작업한다.)
+
+/etc/fstab : UUID : 장치명(UUID=blkid 하드디스크 이름 또는 그냥 디스크 이름(/dev/sd*))이 들어간다 그다음 마운트 포인트 default : 옵션 0(커널 덤프 유지  or not) 0(파일 시스템 체크 방식) : 그냥 Centos 7부터는 그냥 통일(xfs는 둘다 0 0이다)
+	
+nfs(network file system) : 용량이 부족해 하드가 당장 필요할 때 다른 컴퓨터에 있는 하드디스크의 일정 부분을 자신한테 마운트를 시킨다.(이 과정이 네트워크를 통해 이루어진다.)  패키지 nfs-* 랑 nfs4-* 설치
+				/etc/exports에서 작업
+			* 용량을 제공하면 server 받으면 client
+/etc/exports : 필요한 내용을 적기만 하면된다.(ex) /nfs_server(연결시킬디렉토리)	192.168.100.128(클라이언트 ip주소)(rw,no_root_squash,sync)(읽고,쓰기,root연결 가능, 동기화)
+systemctl resart nfs
+systemctl enable nfs : 재부팅해도 바로 용량 줄수 있다
+systemctl status nfs : 제대로 동작하는지 확인법
+firewall-cmd --permanent --add-service=nfs
+firewall-cmd --reload
+mount -t nfs 192.168.100.128(server):/nfs_server /nfs_client => 그뒤 용량을 정해서 /nfs_server에다가 automount로 한뒤 다시 마운트해준다
+yum -y install autofs-* 설치
+autofs : client에서 nfs를 자동으로 연결하기 위해서 사용
+vi /etc/auto.misc에서 작업
+nfs_client2	-rw,hard,intr	192.168.100.128:/nfs_server
+/etc/autofs.conf(45줄 no를 yes로)건들어야함
+systemctl restart autofs
+systemctl enable autofs
+
+서버는
+	방화벽까지만 해제
+클라이언트는 마운트포함해서 작업해야함
+
+
+
+DNS(ex) www.naver.com. : 마지막 점을 root domain이라고 한다.(전세계에 정확히 13개존재(com, net, org))	
+문자주소 <-> ip주소
+======> 웹구축
+www(Host Name).naver.com(Domain Name)
+192.168.1(network id : domain name이영향).128(host id : host navme이 영향)
+
+vi /etc/hosts => 172.217.25.100		www.naever.com 쓰고 저장 => 제대로 접속안됨(호스트 건든거)
+
+문자주소 입력 > hosts 확인 > DNS cache > DNSserver 주소 확인
+
+vi /etc/resolv.conf => nameserver설정 => 여러개를 쓸 수 있으나 위에가 우선순위다.
+
+168.126.63.1	=> KT(구 한국통신) super DNS
+168.126.63.2	=> 위에것이 죽으면 이것을 써라
+
+8.8.8.8		=> google DNS
+
+패키지 설치 => yum -y install bind-*
+
+vi /etc/named.conf => listen-on port 53 : any;(DNS쿼리가 주고받는 곳(원래 설정은 루프백)), allow-query : any(질의응답 누구한테 물어볼거냐);, recursion : no(반복 질의 응답) => DNS옵션 건든거
+			# listen-oon-v6 : ipv6을 쓴다 ::1 : ipv6용 루프백주소
+
+		   => zone "." : root domain	=> type hint : root domain을 찾기 위한 힌트 
+		   => include "/etc/named.rfc1912.zones" : 건들 타입, include "/etc/named.root.key" : 절대건들지 말자
+
+vi /etc/named.rfc1912.zones => 기본 5개의 zone은 필수고 이후 추가
+		   => zone "linux.edu.kr" IN { => linux.edu.kr이라고 하는 nameserver 구성
+				type master;
+				file "linux.edu.kr.zone";
+				allow-update {any;};
+				allow-transfer {any;};
+			};
+/var/named/linux.edu.kr.zone에
+$TTL 1D
+@       IN SOA  www.linux.edu.kr.       root(
+                                        42      ; serial(몇번째 수정본인지 나타낸다)
+                                        1D      ; refresh (이상이 있나 없나 통신하라)
+                                        1H      ; retry (오류가 있으면 살아있나 이만큼 기다린다 그리고도 안오면 refresh하고 또 retry한다)
+                                        1W      ; expire (그러다가 일주일동안 그것이 반복되면 파괴하고 재생성)
+                                        3H )    ; minimum(nsdomain 유지시간)
+        IN      NS(네임서버레코드)      www.linux.edu.kr.
+        IN      A       192.168.100.128(자기 리눅스 ip)// 위에 2줄은 네임서버 레코드
+
+
+www(호스트네임)     IN      A(주소레코드)       192.168.100.128(자기 리눅스 ip)//정방향(www가 입력되면 저 아이피주소로 연결시킨다.)
+128	IN	PTR	www.linux.edu.kr	//역방향
+입력 => 문잦소를 ip주소로 바꾸는 작업 (신뢰성을 높이기 위햇는 ip주소를 문자주소로 바꾸는 것도 추가해야한다)
+
+zone "100.168.192.in-addr.arpa" IN {(자신의 ip주소 앞에서 3번째까지를 뒤집어서쓴다.)
+        type master;(master : 영역구축(읽기쓰기가가능)<->slave(master의 복사본 읽기전용))
+        file "192.168.100.zone";
+        allow-update { any; };
+        allow-transfer { any; };
+};추가
+똑같이 파일에다가
+$TTL 1D(살아있는기간 적어도 refresh보다 길어야한다)
+@       IN SOA  www.linux.edu.kr.        root(
+                                        77      ; serial
+                                        1D      ; refresh
+                                        1H      ; retry
+                                        1W      ; expire
+                                        3H      ; minimum
+        IN      NS      www.linux.edu.kr.
+        IN      A       192.168.100.128 위에 2줄은 nameserver record
+
+
+128(마지막 ip주소)     IN      PTR     www.linux.edu.kr. 
+ => 권한 수정, UID,GID 수정 필수
+systemctl restart named
+
+그 후
+nslookup 명령어 사용(nameserver ip찾는 명령어)
+
+문자주소 > ip주소	: 정방향(linux.edu.kr)
+
+ip주소 > 문자주소	: 역방향(192.168.100)
+# config : 설정
+WebServer:
+apache사용(패키지 설치 : yum -t install httpd-*)
+systemctl restart httpd
+/etc/httpd/conf/httpd.conf조작
+69번줄부터 네임 서버 구축
+119번줄 DocumentRoot "/var/www/html" => 여기서 출력화면 조정가능(한마디로 디렉토리를 마음대로 바꿀수 있음) 물론뒤의 디렉토리들도 수정해줘야함
+164번줄 : /var/ww/html에서 어떤 .html을 읽나 확인가능 .php도되고 .jsp도되고 넣어두자 
+log는 왼쪽에 있을 수록 세세하게, 오른쪽일 수록 큰것들만 넣는다
+
+새로 추가시 역방향은 이미 있으니 정방향만 추가한다.(zone에다가)
+
+~계정명으로 나타낼려면 /etc/httpd/conf.d/userdir.conf에서 작업하면된다.
+/계정명은				autoindex.confㅇ[서 alias쪽에서 /user2/ "/home/user2/public_html/"로 작업하면된다.
+
+============DB구축
+database server 
+
+DB server
+	ㄴ database
+		ㄴ table
+			ㄴ field
+			ㄴ value
+
+packages : yum -y install mariadb-*
+systemctl restart mariadb
+mysql -u(유저) root -p(암호) mysql(mysql이라는 이름의 데이터베이스를 쓴다라는 의미)
+
+ctrl + l : clear랑 같은 역할
+select version(), current_date; : 버젼과 날짜 나옴
+SQL문		database		table
+
+create		o			o
+show		o			o			
+use		o			x
+desc		x			o			
+select		x			o
+insert		x			o
+update		x			o
+delete		x			o
+alter		x			o
+drop		o			o
+
+create database dbitbank; => dbitbank라는 데이터베이스를 만든다.
+show databases; => 종류가 나온다.
+use dbitbank;=> 다른 데이터 베이스로 이동할떄
+show tables; => 현재 사용중인 데이터 베이스 안에 있는 테이블들을 공개
+create table tbitbank ( num int(3), name char(2) );
+* db : user + database connect
+* user : useraccount management
+* column = field
+* user table은 mariadb를 이용할 수 있는 사용자들의 목록을 보여주고 + 사용자 추가 가능
+* db table은 사용자와 db를 연결 시키는 테이블
+desc tbitbank => 테이블 내에 있는 내용들을 보여줌(필드)
+desc mysql.db => 이렇게 봐도 된다.
+drop table tbitbank; => 테이블 날린다.
+drop database dbitbank; => 데이터베이스 날린다.
+
+update user(테이블명) set password=password('itbank') where user='root';
+delete from user where user=' ';
+insert into user(host,user,pasword) values ('localhost','useritbank',password('itbank'));
+
+create database dbitbank;
+select host, db, user from db;
+delete db;
+insert into db values('localhost','dbitbank','useritbank', 'y':19개);
+이후 mariadb재시작
+
+============================================> 만드는 과정 익명은 다 지운다.
+
+alter : field 편집
+alter table 테이블명 (add|drop|change|modify...)
+add : 추가 : field추가 + 추가할 필드명 자료형  + {first|after 필드명 | }
+		first : 첫번째 필드로 추가
+		after : 해당 필드 뒤에 필드 추가
+		(입력없음) : 마지막 필드에 추가
+drop : 삭제
+	삭제할 필드명
+change : field 이름[+자료형]변경
+	기존 필드명 변경할필드명	자료형
+modify : field 자료형 변경
+	필드명 변경할자료형
+
+==========================DB+Web======
+
+	1. phpmyadmin	: DBserver의 GUI
+
+	2. XE		: zero board의 일종, Web page 기본 틀 제공
+
+DBserver	: useritbank, dbitbank 연동 확인
+
+Web		: www.2bwithu.co.kr 웹페이지 출력
+
+www.phpmyadmin.net에서 다운받아야함	(PHP는 4.0.10.20으로) => /home/main/public_html밑으로 다 넣는다.
+그 후 mv php* phpmyadmin으로 이름 수정
+index.php를 읽을수 있게 추가해주어야 한다.
+yum -y --skip-broken install php-* : .php해독가능
+그 후 다시 restart httpd를 해주자
+
+root, itbank : DB의 로그인
+
+www.xpressengine.com => 다운로드(XE자료실) => XEcore다운로드 => 위처럼 작업(unzip이용) => chmod 707 xe
+
+
+
+
+class2 압축 4개 해제
+1. 128 : NS
+2. 129 : Web+Xe
+3. 130 : DB
+4. 131 : Client
+
+Client에서 www.finaltest.com입력해서 XE화면 띄우기
+
+
+
+
+
+
+
+
