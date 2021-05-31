@@ -1,0 +1,93 @@
+
+<script type="text/javascript">
+  function login(){
+    var loginform = document.loginform;
+    var user_id = loginform.id.value;
+    var user_password = loginform.password.value;
+    if(!user_id || !user_password){
+      alert("아이디와 비밀번호 모두 입력해주세요")
+    }else{
+      loginform.submit();
+    }
+
+  }
+  function check(event){
+    if(event.keyCode ==13){
+      login();
+    }
+  }
+
+</script>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.83.1">
+    <title>Signin Template · Bootstrap v5.0</title>
+    
+    <!--<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/">-->
+
+
+    
+
+    <!-- Bootstrap core CSS -->
+{% load static %}
+<link href="{% static 'login/signin.css' %}" type = "text/css"  rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static 'login/bootstrap.min.css' %}" type = "text/css" rel="stylesheet">
+  </head>
+  <body class="text-center">
+    {% if error %}
+    <script type="text/javascript">
+    alert("로그인 실패")
+    </script>
+    
+    {% endif %}
+<main class="form-signin">
+  <form method="POST" action="" name="loginform" onsubmit="return false">
+    <!--<img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      {% csrf_token %}
+      
+      <div class="form-floating">
+        <input type="id" class="form-control" id="floatingInput" name="id" placeholder="id" onkeydown="check(event)">
+        <label for="floatingInput">ID</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" onkeydown="check(event)" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+
+
+      <button class="w-100 btn btn-lg btn-primary" type="button" onclick="login()">로그인</button>
+    </form>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+  </form>
+</main>
+
+
+    
+  </body>
+</html>

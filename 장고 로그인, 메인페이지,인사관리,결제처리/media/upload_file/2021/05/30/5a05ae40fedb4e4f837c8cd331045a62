@@ -1,0 +1,14 @@
+1.Problem Statement를 만들어야한다 => 가장 중요 => functional, nonfunctional requirements가 필요하다.
+	왜필요한지
+	어디까지 필요한지
+	목적과 성공 조건
+2. 체계적이고 훈련된 방법으로 만들어야 한다.(지식체계와 운영체계) => 소프트웨어는 문제를 어떻게 이해하고 설계가 이루어지고 그게 코드로 어떻게 반영되나를 보여주어야 한다.
+
+
+IEEE-830 : Requirements를 나누어야 한다.(FUNCTIONAL, NONFUNCTIONAL)
+User Stirues방식도 있다.
+
+Use Cases : 
+Actor : 이용자
+Actors'Goal : 목표
+Use Case Name : 액터가 어떤 게 무엇을 할 수 있는가

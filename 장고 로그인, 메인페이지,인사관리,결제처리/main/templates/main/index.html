@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by Free CSS Templates
+http://www.freecsstemplates.org
+Released for free under a Creative Commons Attribution 2.5 License
+
+Name       : Blogging
+Description: A two-column, fixed-width design for 1024x768 screen resolutions.
+Version    : 1.0
+Released   : 20090208
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+{% load static %}
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>COMPANY Temporary site</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="{% static 'main/style.css' %}" rel="stylesheet" type="text/css" media="screen" />
+<link href="{% static 'main/bootstrap.min.css' %}" rel="stylesheet">
+
+    
+</head>
+<body>
+<div id="wrapper">
+
+	<div id="header">
+		<!--<div id="menu">-->
+			<style>
+				#nav{
+					list-style: none;
+					height: 400px;
+					padding: 5px 1px;
+					margin: 0;
+				
+				}
+				#nav li{
+					float:left;
+					position: relative;
+					margin: 5px 30px;
+					padding: 0;
+				}
+				#nav li a{
+					display: block;
+					font-family: "굴림";
+					font-size: 18px;
+					padding: 7px 8px;
+					margin: 0;
+					color: #fff;
+					margin: 0;
+					text-decoration: none;
+					text-shadow: 0 1px 1px rbga(0,0,0,0.3);
+				}
+				#nav li:hover > a{
+					/*background: white;*/
+					color:black;
+					margin:0;
+					padding: 5px;
+				}
+				#nav ul{
+					list-style: none;
+					margin: 0;
+					padding: 0;
+					position:absolute;
+					left:0;
+					top: 40px;
+					width:150px;
+					background:orange;
+					text-align: center;
+					opacity: 0;
+				}
+				#nav ul li{
+					float: none;
+					margin:0;
+					padding:0;
+					font-size: 10px;
+				}
+				#nav ul a{
+					font-weight:normal;
+					color: black;
+				}
+				#nav ul li:hover a{
+					background: #cc9882;
+					font-weight: bold;
+				}
+				#nav li:hover ul{
+					opacity: 1;
+				}
+				#nav li:hover ul li{
+					height: 35px;
+					overflow: visible;
+					padding: 0;
+				}
+			</style>
+			<ul id = "nav">
+				<li class="current_page_item"><a href="/main">Home</a></li>
+				<li><a href="#">인사관리</a>
+					<ul>
+						{% if 2 >= rank %}
+						<li><a href="/employee">인사관리</a></li>
+						{%endif%}
+						<li><a href="#">조직도</a></li>
+						<li><a href="#">직원 리스트</a></li>
+					</ul>
+				</li>
+				
+				<li><a href="#">자료게시판</a></li>
+				<li><a href="#">결제게시판</a>
+					<ul>
+						<li><a href="/suggestion">결제요청</a></li>
+						
+						<li><a href="/approval/">결제승인</a></li>
+						<li><a href="/approvalcheck/">결제처리현황</a></li>
+					</ul>
+				
+				</li>
+				<li><a href="#">캘린더</a></li>
+			</ul>
+		<!--</div>-->
+		<!-- end #menu -->
+
+		<!-- end #search -->
+	</div>
+	<!-- end #header -->
+
+	<hr />
+	<!-- end #logo -->
+<!-- end #header-wrapper -->
+
+<div id="page">
+	<div id="content">
+
+
+	</div>
+	<!-- end #content -->
+	<div id="sidebar">
+		<ul>
+			<li>
+				<h2>{{name}}님</h2>
+				<p>부서 : {{department}}
+					<br>
+					직급 : {{position}}	
+				<p>
+			</li>
+			<li id="calendar">
+				<h2>Calendar</h2>
+				<div id="calendar_wrap">
+					<table summary="Calendar">
+						<caption>
+						March 2008
+						</caption>
+						<thead>
+							<tr>
+								<th abbr="Monday" scope="col" title="Monday">M</th>
+								<th abbr="Tuesday" scope="col" title="Tuesday">T</th>
+								<th abbr="Wednesday" scope="col" title="Wednesday">W</th>
+								<th abbr="Thursday" scope="col" title="Thursday">T</th>
+								<th abbr="Friday" scope="col" title="Friday">F</th>
+								<th abbr="Saturday" scope="col" title="Saturday">S</th>
+								<th abbr="Sunday" scope="col" title="Sunday">S</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<td abbr="February" colspan="3" id="prev"><a href="#" title="">&laquo; Feb</a></td>
+								<td class="pad">&nbsp;</td>
+								<td abbr="April" colspan="3" id="next"><a href="#" title="">Apr &raquo;</a></td>
+							</tr>
+						</tfoot>
+						<tbody>
+							<tr>
+								<td colspan="5" class="pad">&nbsp;</td>
+								<td>1</td>
+								<td>2</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>4</td>
+								<td>5</td>
+								<td>6</td>
+								<td>7</td>
+								<td>8</td>
+								<td>9</td>
+							</tr>
+							<tr>
+								<td>10</td>
+								<td id="today">11</td>
+								<td>12</td>
+								<td>13</td>
+								<td>14</td>
+								<td>15</td>
+								<td>16</td>
+							</tr>
+							<tr>
+								<td>17</td>
+								<td>18</td>
+								<td>19</td>
+								<td>20</td>
+								<td>21</td>
+								<td>22</td>
+								<td>23</td>
+							</tr>
+							<tr>
+								<td>24</td>
+								<td>25</td>
+								<td>26</td>
+								<td>27</td>
+								<td>28</td>
+								<td>29</td>
+								<td>30</td>
+							</tr>
+							<tr>
+								<td>31</td>
+								<td class="pad" colspan="6">&nbsp;</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</li>
+			<li>
+				<h2>공지사항</h2>
+				<ul>
+					<li><a href="#"></a><a href="#">추후 추가될 예정</a></li>
+					<li><a href="#">추후 추가될 예정</a></li>
+					<li><a href="#">추후 추가될 예정</a></li>
+					<li><a href="#">추후 추가될 예정</a></li>
+					<li><a href="#">추후 추가될 예정</a></li>
+					</ul>
+				</li>
+		</ul>
+	</div>
+	<!-- end #sidebar -->
+	<div style="clear: both;">&nbsp;</div>
+</div>
+<!-- end #page -->
+
+<div id="footer">
+	<p>Copyright (c) 2008 Sitename.com. All rights reserved. Design by <a href="http://www.freecsstemplates.org/">Free CSS Templates</a>.</p>
+</div>
+<!-- end #footer -->
+</div>
+<div align=center>This template  downloaded form <a href='http://all-free-download.com/free-website-templates/'>free website templates</a></div></body>
+</html>
